@@ -1,0 +1,6 @@
+.env
+sara/
+sara/*
+
+git add sara/Lib/site-packages/torch/lib/torch_cpu.dll
+git add sara/Lib/site-packages/torch/lib/dnnl.lib

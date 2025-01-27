@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SARA - Inventory Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-center mb-8 text-blue-600">SARA - Inventory Management</h1>
+
+    <!-- Toggle Button for Add Product Form -->
+    <div class="text-center mb-8">
+      <button id="toggleFormButton" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-300">
+        Add Product
+      </button>
+    </div>
+
+    <!-- Add/Edit Product Form (Initially Hidden) -->
+    <div id="productFormContainer" class="bg-white p-6 rounded-lg shadow-md mb-8 border border-blue-100 hidden">
+      <h2 class="text-2xl font-semibold mb-4 text-blue-800">Add/Edit Product</h2>
+      <form id="productForm" class="space-y-4">
+        <input type="hidden" id="productId">
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700">Product Name</label>
+          <input type="text" id="name" class="mt-1 p-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+        </div>
+        <div>
+          <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+          <input type="text" id="category" class="mt-1 p-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+        </div>
+        <div>
+          <label for="stock" class="block text-sm font-medium text-gray-700">Stock</label>
+          <input type="number" id="stock" class="mt-1 p-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+        </div>
+        <div>
+          <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+          <input type="number" step="0.01" id="price" class="mt-1 p-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+        </div>
+        <div>
+          <label for="cost" class="block text-sm font-medium text-gray-700">Cost</label>
+          <input type="number" step="0.01" id="cost" class="mt-1 p-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+        </div>
+        <div>
+          <label for="lead_time" class="block text-sm font-medium text-gray-700">Lead Time (Days)</label>
+          <input type="number" id="lead_time" class="mt-1 p-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+        </div>
+        <button type="submit" class="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition duration-300 w-full">
+          Save Product
+        </button>
+        <button type="button" id="cancelFormButton" class="bg-gray-500 text-white p-2 rounded-lg hover:bg-gray-600 transition duration-300 w-full">
+          Cancel
+        </button>
+      </form>
+    </div>
+
+    <!-- Product List -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-8 border border-blue-100">
+      <h2 class="text-2xl font-semibold mb-4 text-blue-800">Product List</h2>
+      <table class="min-w-full bg-white rounded-lg overflow-hidden">
+        <thead class="bg-blue-50">
+          <tr>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Name</th>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Category</th>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Stock</th>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Price</th>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Cost</th>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Lead Time</th>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="productList" class="divide-y divide-blue-100">
+          <!-- Rows will be inserted here -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Replenishment Alerts, Stock-Out Predictions, Dead Stock Identification -->
+    <!-- Replenishment Alerts -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-8 border border-blue-100">
+      <h2 class="text-2xl font-semibold mb-4 text-blue-800">Replenishment Alerts</h2>
+      <table class="min-w-full bg-white rounded-lg overflow-hidden">
+        <thead class="bg-blue-50">
+          <tr>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Product</th>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Refill Date</th>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Days Until Stockout</th>
+          </tr>
+        </thead>
+        <tbody id="replenishmentAlerts" class="divide-y divide-blue-100">
+          <!-- Rows will be inserted here -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Stock-Out Predictions -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-8 border border-blue-100">
+      <h2 class="text-2xl font-semibold mb-4 text-blue-800">Stock-Out Predictions</h2>
+      <table class="min-w-full bg-white rounded-lg overflow-hidden">
+        <thead class="bg-blue-50">
+          <tr>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Product</th>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Days Until Stockout</th>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Suggestion</th>
+          </tr>
+        </thead>
+        <tbody id="stockoutPredictions" class="divide-y divide-blue-100">
+          <!-- Rows will be inserted here -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Dead Stock Identification -->
+    <div class="bg-white p-6 rounded-lg shadow-md border border-blue-100">
+      <h2 class="text-2xl font-semibold mb-4 text-blue-800">Dead Stock Identification</h2>
+      <table class="min-w-full bg-white rounded-lg overflow-hidden">
+        <thead class="bg-blue-50">
+          <tr>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Product</th>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Suggestion</th>
+          </tr>
+        </thead>
+        <tbody id="deadStock" class="divide-y divide-blue-100">
+          <!-- Rows will be inserted here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='inventory.js') }}"></script>
+</body>
+</html>

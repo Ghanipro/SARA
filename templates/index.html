@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 py-12">
+    <div class="max-w-4xl mx-auto px-4">
+      <!-- Title -->
+      <h1 class="text-5xl font-bold text-center text-white mb-8 animate-bounce">
+        Welcome to SARA - Retail Analytics
+      </h1>
+
+      <!-- Introduction -->
+      <p class="text-center text-white text-xl mb-12">
+        "Empowering retailers with data-driven insights to optimize operations and boost sales."
+      </p>
+
+      <!-- Features Section -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Feature 1 -->
+        <div class="bg-white rounded-lg shadow-lg p-6 transform hover:scale-105 transition-transform">
+          <div class="text-purple-600 text-4xl mb-4">
+            📊
+          </div>
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">Sales Analytics</h2>
+          <p class="text-gray-600">
+            "Dive deep into your sales data with interactive charts and trends. Identify top-performing products and optimize pricing strategies."
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="bg-white rounded-lg shadow-lg p-6 transform hover:scale-105 transition-transform">
+          <div class="text-pink-600 text-4xl mb-4">
+            🛒
+          </div>
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">Inventory Management</h2>
+          <p class="text-gray-600">
+            "Track your inventory in real-time, reduce stockouts, and manage suppliers efficiently. Never miss a sale due to insufficient stock."
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="bg-white rounded-lg shadow-lg p-6 transform hover:scale-105 transition-transform">
+          <div class="text-red-600 text-4xl mb-4">
+            👥
+          </div>
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">Customer Insights</h2>
+          <p class="text-gray-600">
+            "Understand your customers better with demographic analysis and purchase behavior. Personalize marketing campaigns for higher engagement."
+          </p>
+        </div>
+      </div>
+
+      <!-- Call to Action -->
+      <div class="text-center mt-12">
+        <a href="#" class="bg-white text-purple-600 font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-purple-50 transition-colors">
+          Get Started
+        </a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

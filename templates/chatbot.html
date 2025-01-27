@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SARA - Negotiation Assistant</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <div class="container mx-auto p-4">
+    <h1 class="text-3xl font-bold text-center mb-8">SARA - Negotiation Assistant</h1>
+
+    <!-- Dealer and Product Input -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+      <h2 class="text-2xl font-semibold mb-4">Enter Dealer and Product Details</h2>
+      <div class="mb-4">
+        <label for="dealerNumber" class="block text-sm font-medium text-gray-700">Dealer Number</label>
+        <input
+          type="text"
+          id="dealerNumber"
+          placeholder="Enter dealer number"
+          class="mt-1 p-2 border rounded-lg w-full focus:outline-none"
+        />
+      </div>
+      <div class="mb-4">
+        <label for="productName" class="block text-sm font-medium text-gray-700">Product Name</label>
+        <input
+          type="text"
+          id="productName"
+          placeholder="Enter product name"
+          class="mt-1 p-2 border rounded-lg w-full focus:outline-none"
+        />
+      </div>
+      <div class="mb-4">
+        <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+        <input
+          type="number"
+          id="price"
+          placeholder="Enter price"
+          class="mt-1 p-2 border rounded-lg w-full focus:outline-none"
+        />
+      </div>
+      <button
+        id="negotiateButton"
+        class="bg-blue-500 text-white p-2 rounded-lg w-full hover:bg-blue-600"
+      >
+        Start Negotiation
+      </button>
+    </div>
+
+    <!-- Negotiation Results -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+      <h2 class="text-2xl font-semibold mb-4">Negotiation Results</h2>
+      <div id="negotiationResults" class="bg-gray-50 p-4 rounded-lg">
+        <!-- Results will be populated here -->
+      </div>
+    </div>
+
+    <!-- Ranked Dealers -->
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-semibold mb-4">Ranked Dealers</h2>
+      <ul id="rankedDealers" class="list-disc list-inside">
+        <!-- Dealer rankings will be populated here -->
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Function to handle negotiation
+    document.getElementById("negotiateButton").addEventListener("click", async () => {
+      const dealerNumber = document.getElementById("dealerNumber").value;
+      const productName = document.getElementById("productName").value;
+      const price = document.getElementById("price").value;
+
+      if (!dealerNumber || !productName || !price) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/negotiate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ dealer_number: dealerNumber, product_name: productName, price }),
+        });
+        const data = await response.json();
+
+        // Display negotiation results
+        const resultsElement = document.getElementById("negotiationResults");
+        resultsElement.innerHTML = `<strong>Response:</strong> ${data.response}`;
+
+        // Refresh ranked dealers
+        fetchRankedDealers();
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Failed to negotiate. Please try again.");
+      }
+    });
+
+    // Function to fetch and display ranked dealers
+    async function fetchRankedDealers() {
+      const rankedDealersElement = document.getElementById("rankedDealers");
+
+      try {
+        const response = await fetch("/api/rank-dealers");
+        const data = await response.json();
+        rankedDealersElement.innerHTML = ""; // Clear previous content
+
+        data.ranked_dealers.forEach((dealer) => {
+          const li = document.createElement("li");
+          li.textContent = `${dealer[0]}: Best Price - $${Math.min(...dealer[1].map(quote => quote.price))}`;
+          rankedDealersElement.appendChild(li);
+        });
+      } catch (error) {
+        rankedDealersElement.innerHTML = "<li>Error: Failed to fetch dealer rankings.</li>";
+      }
+    }
+
+    // Fetch ranked dealers on page load
+    fetchRankedDealers();
+  </script>
+</body>
+</html>

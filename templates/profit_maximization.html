@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="max-w-4xl mx-auto px-4">
+    <h1 class="text-3xl font-bold text-center mb-8 text-blue-600">SARA - Profit Maximization Roadmap</h1>
+
+    <!-- Pricing Strategies -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-8 border border-blue-100">
+      <h2 class="text-2xl font-semibold mb-4 text-blue-800">Pricing Strategies</h2>
+      <table class="min-w-full bg-white rounded-lg overflow-hidden compact-table">
+        <thead class="bg-blue-50">
+          <tr>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Product</th>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Current Price</th>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Suggested Price</th>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Reason</th>
+          </tr>
+        </thead>
+        <tbody id="pricingStrategies" class="divide-y divide-blue-100">
+          <!-- Rows will be inserted here -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Discount Optimization -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-8 border border-blue-100">
+      <h2 class="text-2xl font-semibold mb-4 text-blue-800">Discount Optimization</h2>
+      <table class="min-w-full bg-white rounded-lg overflow-hidden compact-table">
+        <thead class="bg-blue-50">
+          <tr>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Product</th>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Current Stock</th>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Suggested Discount</th>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Reason</th>
+          </tr>
+        </thead>
+        <tbody id="discountOptimization" class="divide-y divide-blue-100">
+          <!-- Rows will be inserted here -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Cost Reduction Tips -->
+    <div class="bg-white p-6 rounded-lg shadow-md border border-blue-100">
+      <h2 class="text-2xl font-semibold mb-4 text-blue-800">Cost Reduction Tips</h2>
+      <table class="min-w-full bg-white rounded-lg overflow-hidden compact-table">
+        <thead class="bg-blue-50">
+          <tr>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Product</th>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Current Cost</th>
+            <th class="py-3 px-4 border-b text-left text-blue-800">Suggestion</th>
+          </tr>
+        </thead>
+        <tbody id="costReductionTips" class="divide-y divide-blue-100">
+          <!-- Rows will be inserted here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='profit.js') }}"></script>
+{% endblock %}
